@@ -1,0 +1,6 @@
+useDynLib(nanop)
+import(graphics)
+
+export(calcPDF, calcTotalScatt, calcQDepPDF, calcRedTotalScatt,
+       simPart, displacePart, broadPDF, RSSLine, rss, 
+       simPartPar, PDFPar, TotalScattPar)
