@@ -2,7 +2,8 @@ calcPDF <- function(nanop, calpha=1, dr=.01, minR=1, maxR=20, p = 1,
                     foranalcs = FALSE) {
 
   r <- seq(minR, maxR, by = dr)
-  
+  if(length(nanop) == 0)
+    return(list(r=r,gr=rep(0,length(r))))
   if(!foranalcs) 
     ret <- list(r=r, gr=.C("calcPDF",
                        res = as.double(rep(0,length(r))),

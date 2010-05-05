@@ -83,7 +83,8 @@ aa <- simPart(r=10, latticep=5)
 ax <- displacePart(aa, sigmacore=.001, sigmashell=.1, rcore=10) 
 # spheres3d(ax, radius=.4)
 
-
+## Particle with radius drawn from a log-Normal size-distribution
+ax <- simPart(r=exp(rnorm(1, log(10), log(1.01))), rcenter=TRUE)
 }
 
 \keyword{manip}

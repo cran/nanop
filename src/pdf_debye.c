@@ -9,7 +9,10 @@ void calcPDF(double *res, double *r, int *len, double *np, int *nrow,
 	     double *calpha, double *dr, double *minR, double *p) {
 
   int i, j, k;
-  double nanop[*nrow][3];
+  double ** nanop = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    nanop[ i ] = Calloc(3 * sizeof( double ) , double);
+ 
   double dist, ntmp;
 
   j = 0;
@@ -89,9 +92,15 @@ void calcTotalScatt(double *res, double *Q, int *len, double *minQ,
 
   int i, j, k;
   
-  double nanop[*nrow][3];
-  double dist[*nrow][*nrow];
-  double ff[*len];
+  double ** nanop = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    nanop[ i ] = Calloc(3 * sizeof( double ) , double);
+  double ** dist = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    dist[ i ] = Calloc(*nrow * sizeof( double ) , double);
+
+  double *ff = Calloc( *len * sizeof( double) , double);
+  
   double ntmp, q4;
 
   j = 0;
@@ -131,21 +140,30 @@ void calcTotalScatt(double *res, double *Q, int *len, double *minQ,
   }
 }
 
+
 /* calcQDepPDF */
 
-void calcQDepPDF(double *res, double *Q, double *r, 
-		     int *len, double *np, int *nrow,
-		     double *a1, double *b1, 
-		     double *a2, double *b2,
-		     double *a3, double *b3, 
-		     double *a4, double *b4,
-		     double *c) {
+void calcQDepPDF(double *res, 
+		    double *Q, double *r, 
+		    int *len, double *np, int *nrow,
+		    double *a1, double *b1, 
+		    double *a2, double *b2,
+		    double *a3, double *b3, 
+		    double *a4, double *b4,
+		    double *c) {
   
+
   int i, j, k;
   
-  double nanop[*nrow][3];
-  double dist[*nrow][*nrow];
-  double ff[*len];
+  double ** nanop = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    nanop[ i ] = Calloc(3 * sizeof( double ) , double);
+  double ** dist = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    dist[ i ] = Calloc(*nrow * sizeof( double ) , double);
+
+  double *ff = Calloc( *len * sizeof( double) , double);
+  
   double ntmp, q4;
 
   j = 0;
@@ -163,11 +181,13 @@ void calcQDepPDF(double *res, double *Q, double *r,
       (*a4)*exp(-(*b4)*q4)+(*c);
     ff[i] = pow(ff[i],2);
   }
+  
   for (j=0; j < *nrow; j++) {
     for (k=0; k < *nrow; k++) { 
       dist[j][k] = sqrt(pow(nanop[j][0]-nanop[k][0],2)+ 
 			pow(nanop[j][1]-nanop[k][1],2)+ 
 			pow(nanop[j][2]-nanop[k][2],2));
+     
     }
   }
   for (i=0; i < *len; i++) {
@@ -175,10 +195,70 @@ void calcQDepPDF(double *res, double *Q, double *r,
     for (j=0; j < *nrow; j++) {
       for (k=0; k < *nrow; k++) { 
 	if(dist[j][k]!=0) 
-	  ntmp = ntmp + (ff[i] *(sin(Q[i]*dist[j][k]))/(Q[i]*dist[j][k]));	
+	  ntmp = ntmp + (ff[i] *(sin(Q[i]*dist[j][k]))/(Q[i]*dist[j][k]));
       }
     }
     res[i] = 1/((double)*nrow*ff[i]) * ntmp * sin(Q[i]* *r) * Q[i];
+  }
+ 
+}
+/* calcQDepPDFAux */
+
+void calcQDepPDFAux(double *res, 
+		    double *Q, 
+		    int *len, double *np, int *nrow,
+		    double *a1, double *b1, 
+		    double *a2, double *b2,
+		    double *a3, double *b3, 
+		    double *a4, double *b4,
+		    double *c) {
+  
+  int i, j, k;
+  
+  double ** nanop = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    nanop[ i ] = Calloc(3 * sizeof( double ) , double);
+  double ** dist = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    dist[ i ] = Calloc(*nrow * sizeof( double ) , double);
+
+  double *ff = Calloc( *len * sizeof( double) , double);
+  
+  double ntmp, q4;
+ 
+  j = 0;
+  for (i=0; i < *nrow; i++) { 
+    nanop[i][0] = np[j];
+    nanop[i][1] = np[j+1];
+    nanop[i][2] = np[j+2];
+    j+=3;
+  }
+  for (i=0; i < *len; i++) {
+    q4 = Q[i]/(4*M_PI);
+    ff[i] = (*a1)*exp(-(*b1)*q4)+
+      (*a2)*exp(-(*b2)*q4)+
+      (*a3)*exp(-(*b3)*q4)+
+      (*a4)*exp(-(*b4)*q4)+(*c);
+    ff[i] = pow(ff[i],2);
+  }
+  
+  for (j=0; j < *nrow; j++) {
+    for (k=0; k < *nrow; k++) { 
+      dist[j][k] = sqrt(pow(nanop[j][0]-nanop[k][0],2)+ 
+			pow(nanop[j][1]-nanop[k][1],2)+ 
+			pow(nanop[j][2]-nanop[k][2],2));
+     
+    }
+  }
+  for (i=0; i < *len; i++) {
+    ntmp = 0;
+    for (j=0; j < *nrow; j++) {
+      for (k=0; k < *nrow; k++) { 
+	if(dist[j][k]!=0) 
+	  ntmp = ntmp + (ff[i] *(sin(Q[i]*dist[j][k]))/(Q[i]*dist[j][k]));
+      }
+    }
+    res[i] = 1/((double)*nrow*ff[i]) * ntmp;
   }
 }
 
@@ -190,9 +270,17 @@ void calcRedTotalScatt(double *res, double *Q, int *len, double *minQ,
 		       {
   
   int i, j, k;
-  double nanop[*nrow][3];
-  double dist[*nrow][*nrow];
-  double ff[*len];
+
+  
+  double ** nanop = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    nanop[ i ] = Calloc(3 * sizeof( double ) , double);
+  double ** dist = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    dist[ i ] = Calloc(*nrow * sizeof( double ) , double);
+
+  double *ff = Calloc( *len * sizeof( double) , double);
+  
   double ntmp, q4;
  
   
@@ -253,5 +341,48 @@ void simPart(double *res, int *lenres, double *base, int *lenbase,
 	 }
        }
      }
+  }
+}
+/* calcTotalScatt */
+
+void calcTotalScatterSimple(double *res, double *Q, int *len, double *minQ,
+		    double *dQ, double *np, int *nrow) {
+
+  int i, j, k;
+   
+  double ** nanop = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    nanop[ i ] = Calloc(3 * sizeof( double ) , double);
+  double ** dist = Calloc( *nrow * sizeof( double * ) , double*);
+  for( int i = 0; i < *nrow; i++ )
+    dist[ i ] = Calloc(*nrow * sizeof( double ) , double);
+ 
+  double ntmp;
+
+  j = 0;
+  for (i=0; i < *nrow; i++) { 
+    nanop[i][0] = np[j];
+    nanop[i][1] = np[j+1];
+    nanop[i][2] = np[j+2];
+    j+=3;
+  }
+  
+  for (j=0; j < *nrow; j++) {
+    for (k=0; k < *nrow; k++) { 
+      dist[j][k] = sqrt(pow(nanop[j][0]-nanop[k][0],2)+ 
+			pow(nanop[j][1]-nanop[k][1],2)+ 
+			pow(nanop[j][2]-nanop[k][2],2));
+    }
+  }
+  
+  for (i=0; i < *len; i++) {
+    for (j=0; j < *nrow; j++) {
+      for (k=0; k < *nrow; k++) { 
+	if(Q[i]*dist[j][k]!=0)
+	  res[i] = res[i] * 
+	    (sin(Q[i]*dist[j][k]))/(Q[i]*dist[j][k]);
+
+      }
+    }
   }
 }

@@ -115,8 +115,29 @@ plot(xx1$r,xx1$gr, type="l")
 ##               analBroad=TRUE)
 
 ## now res$optim contains estimates for the particle radius,
-## displacement variance sigma, and lattice parameter 
-}
+## displacement variance sigma, and lattice parameter
 
+## An example in simulating and fitting size-distributed particles:
+
+## make data
+## AV <- 1000
+## gCS <- 0
+## for(j in 1:AV) {
+##    a <- simPart(r=exp(rnorm(1, log(10), log(1.2))), rcenter=TRUE)
+##    aCS <- displacePart(a, sigma=.01, rcenter=TRUE)
+##    gCS <- gCS + calcPDF(aCS)$gr
+##  }
+## gCS <- gCS/AV
+
+## ab <- as.relistable(list(latticep=0,rmu=0,rsigma=0,sigma=0))
+
+## res <- DEoptim(rss, lower=c(latticep=3.5, rmu=5.5,rsigma=1, sigma=.001),
+##                       upper=c(latticep=5.6, rmu=12,rsigma=1.5, sigma=.1),
+##                       control=DEoptim.control(VTR=125,NP=50, itermax=200), 
+##                       data=gCS, avRes=75,
+##                       simPar = simPartPar(rcenter=TRUE), 
+##                       skel=ab, verbose=TRUE,  PDF.fixed=PDFPar())
+
+}
 \keyword{manip}
 
