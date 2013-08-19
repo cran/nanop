@@ -1,46 +1,71 @@
-calcQDepPDF <- function(nanop, dr=.1, minR=1, maxR=20, minQ=1, maxQ=20,
-           a1 = 16.8819,
-           b1=.4611, a2=18.5913, b2=8.6216,
-           a3=25.5582, b3=1.48260, a4=5.86, b4=36.3956,
-           c=12.0658) {
+calcQDepPDF <- function(nanop=NA, dr=.1, minR=1, maxR=20, dQ=.01, minQ=1, maxQ=20,
+                        verbose=0, subdivisions = 100,
+                        rel.tol=.Machine$double.eps^.7,
+                        addNoise=FALSE,
+                        noiseFun=NA, 
+						totalScattParams=list(), 
+                        preTotalScat=NA, ...) {
  
-    r <- seq(minR, maxR, by = dr)
-    res <- vector(length=length(r))
-    for(i in 1:length(r)) {
+  r <- seq(minR, maxR, by = dr)
+  res <- vector(length=length(r))
+  tnanop <- t(nanop)
+  
+  sigma=totalScattParams$sigma
+  n=totalScattParams$n
+  delta=totalScattParams$delta
+  kind=totalScattParams$kind 
+  dr = totalScattParams$dr
+  del = totalScattParams$delta
+  eps=totalScattParams$eps
+  type=totalScattParams$type
+  scatterLength=totalScattParams$scatterLength
+  scatterFactor=totalScattParams$scatterFactor	
+  
+  if(is.na(preTotalScat[[1]][1])) 			   
+    totalScatt <- calcTotalScatt(nanop, dQ=dQ, minQ=minQ, maxQ=maxQ,
+                                 scatterFactor=scatterFactor, scatterLength=scatterLength,  
+                                 sigma=sigma, n=n, delta=delta, kind=kind, type=type, 
+						         dr = dr,  del = del, eps=eps)
+  else
+    totalScatt <- preTotalScat 
       
-      res[i] <- integrate(f=calcQDepPDFAux, lower=minQ, upper=maxQ,
-                          r=r[i], nrownanop=nrow(nanop),
-                          tnanop=as.vector(t(nanop)),
-                          dr=dr, minR=minR, a1=a1,
-                          b1=b1, a2=a2, b2=b2, a3=a3, b3=b3, a4=a4, b4=b4,
-                          c=c, subdivisions=100)$value * (2/pi)
-    }
-    list(r=r,gr=res)
+    
+  for(i in 1:length(r)) {   
+    res[i] <- distrEx::GLIntegrate(f=calcQDepPDFAux, 
+	                      lower=minQ, upper=maxQ,
+						  order=1000, rel.tol=rel.tol,
+						  r=r[i], 
+						  tnanop=as.vector(tnanop),
+						  minR=minR,
+						  subdivisions=subdivisions, 
+                          totalScatt = totalScatt,
+                          addNoise=addNoise, 
+                          noiseFun=noiseFun, ...) * (2/pi)
+    if(verbose > 0 && ((i %% verbose) == 0))
+      cat("Finished computing r=", r[i], "\n")
   }
+  
+  list(r=r, gr=res)
+}
 
-calcQDepPDFAux <- function(Q, tnanop, nrownanop, r, a1 = 16.8819,
-                           b1=.4611, a2=18.5913, b2=8.6216,
-                           a3=25.5582, b3=1.48260, a4=5.86, b4=36.3956,
-                           c=12.0658, dr, minR) {
+calcQDepPDFAux <- function(Q, r, 
+                           totalScatt = NA,
+                           addNoise=FALSE,
+                           noiseFun=NA, ...) {
 
+  fn1  <- function(res) noiseFun(res, ...)
+  totalScattVec <- approx(totalScatt$Q, totalScatt$gQ, Q)$y
 
-    res <- .C("calcQDepPDF",
-     res = as.double(Q),
-     Q = as.double(Q),
-     r = as.double(r), 
-     len = as.integer(length(Q)),
-     np = as.double(tnanop),
-     nrow = as.integer(nrownanop),
-     a1 = as.double(a1),
-     b1 = as.double(b1),
-     a2 = as.double(a2),
-     b2 = as.double(b2),
-     a3 = as.double(a3),
-     b3 = as.double(b3),
-     a4 = as.double(a4),
-     b4 = as.double(b4),
-     c = as.double(c),
-     PACKAGE="nanop")$res
- 
+  if(addNoise)
+    totalScattVec <- noiseFun(totalScattVec, ...)
+
+  res <- .C("calcQDepPDF",
+              res = as.double(Q),
+              Q = as.double(Q),
+              r = as.double(r), 
+              len = as.integer(length(Q)),
+              totalScattVec = as.double(totalScattVec), 
+              PACKAGE="nanop")$res
+
   res
 }

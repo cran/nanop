@@ -1,6 +1,10 @@
 useDynLib(nanop)
 import(graphics)
 
-export(calcPDF, calcTotalScatt, calcQDepPDF, calcRedTotalScatt,
-       simPart, displacePart, broadPDF, RSSLine, rss, 
-       simPartPar, PDFPar, TotalScattPar)
+export(calcPDF, calcTotalScatt, calcQDepPDF,
+       simPart,  displacePart, broadPDF, rss,  
+       simPartPar, PDFPar, TotalScattPar, 
+	   termRip, gaussConvol, IqSAS, IqSASP, 
+	   GrSAS, GrSASCS, plotPart, getSymEl,
+	   getScatterFactor, getScatterLength,
+	   createAtom, getBase)

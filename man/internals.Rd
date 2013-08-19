@@ -1,8 +1,8 @@
 \name{Internals}
 \alias{Internals} 
-\alias{PDFPar}
-\alias{simPartPar}
-\alias{TotalScattPar}
+\alias{getSymEl}
+\docType{data}
+\alias{fpe}
 \title{Functions used internally}
 \description{Functions used internally}
 \keyword{internal}

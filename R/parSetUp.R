@@ -1,16 +1,40 @@
-simPartPar <- function(sym = "fcc", latticep = 4.08, r=10, a=5, b=5, c=5,
-                       rcenter=FALSE, latticepshell=NA, rcore=NA)
-  list(sym=sym, latticep=latticep, r=r, a=a,b=b,c=c,
-       latticepshell = latticepshell,
-       rcore = rcore, rcenter=rcenter)
+simPartPar <- function(sym = "fcc", symShell=NA,  latticep = 4.08, latticepShell=NA, 
+                       atoms=list(), atomsShell=list(), distr = "lognormal",
+                       r=NA, rsigma=NA, rcore=NA, box=NA, ellipse=NA, shell=NA,
+                       rcenter=FALSE, move=TRUE, rotShell=FALSE, rcenterShell=FALSE){
 
-PDFPar <- function(calpha=1, dr=.01, minR=1, maxR=20, p = 1)
-  list(calpha=calpha, dr=dr, minR=minR, maxR=maxR, p=p)
+  nAtomTypes <- length(atoms) + length(atomsShell)
+  
+  list(sym=sym, symShell=symShell, nAtomTypes = nAtomTypes, distr=distr,
+       latticep=latticep, r=r,rsigma=rsigma, atoms=atoms, atomsShell=atomsShell, 
+       latticepShell = latticepShell, box=box, ellipse=ellipse, shell=shell, 
+       rcore = rcore, rcenter=rcenter, rotShell=rotShell, 
+	   move=move, rcenterShell=rcenterShell)
 
-TotalScattPar <- function(dQ=.01, minQ=1,maxQ=20, a1 = 16.8819,
-                          b1=.4611, a2=18.5913, b2=8.6216,
-                          a3=25.5582, b3=1.48260, a4=5.86, b4=36.3956,
-                          c=12.0658)
-  list(dQ=dQ, minQ=minQ,maxQ=maxQ, a1 = a1, b1=b1, a2=a2, b2=b2,
-       a3=a3, b3=b3, a4=a4, b4=b4, c=c)
+}
+	   
+###########################################################################
+	   
+PDFPar <- function(dr=.01, minR=1, maxR=20, 
+                   termRip=FALSE, Qmax=30, maxRTermRip=20,
+                   scatterLength=NA, scatterFactor=NA,
+				   n=2, delta=NA, N1=4, N2=4,
+				   Qdamp=NA)
+  list(dr=dr, minR=minR, maxR=maxR, 
+       termRip=termRip, Qmax=Qmax, N1=N1, N2=N2,
+	   Qdamp=Qdamp, n=n, delta=delta, maxRTermRip=maxRTermRip,
+       scatterLength=scatterLength, scatterFactor=scatterFactor)
+
+	   
+	   
+###########################################################################	   
+	   
+TotalScattPar <- function(dQ=.01, minQ=0.771, maxQ=35, minQ_SAS=0.001, maxQ_SAS=0.771, dQ_SAS=0.005,
+                     dr = 0.001, del = 0.01, eps=1e-3,  kind="fastHist", SASscale="normal",        
+					 convolution = FALSE, Qdamp=0.0457, delta=NA, n=2, paramSASQ=FALSE,  
+                     scatterFactor=NA, scatterLength=NA, N1=4, N2=4, f1=5, f2=5)			 
+  list(dQ=dQ, dQ_SAS=dQ_SAS, minQ=minQ,maxQ=maxQ, minQ_SAS=minQ_SAS, maxQ_SAS=maxQ_SAS, kind=kind, SASscale=SASscale, 
+        dr=dr,  del=del, eps=eps, scatterLength=scatterLength, scatterFactor=scatterFactor, 
+		convolution=convolution, Qdamp=Qdamp, delta=delta, n=n, paramSASQ=paramSASQ,
+		N1=N1, N2=N2, f1=f1, f2=f2)
   
