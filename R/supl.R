@@ -8,7 +8,9 @@
 ######################################################################################  
 IqSAS <- function(Q, Rcore=NA, Rpart, latticep, latticepShell=NA, scatterLength, N1, N2=NA, pDimer=0, sym, symShell=NA){
 #  Q <- Q 
+  CS <- TRUE
   if(is.na(Rcore[1])){
+    CS <- FALSE
     Rcore <- Rpart	  
     latticepShell <- latticep
     symShell <- sym
@@ -30,8 +32,7 @@ IqSAS <- function(Q, Rcore=NA, Rpart, latticep, latticepShell=NA, scatterLength,
     stop("unknown symmetry shell type \n", immediate. = TRUE)
   
   f1 <- scatterLength[1] # average scattering length per unit cell
-  f2 <- scatterLength[2]
-  
+  f2 <- scatterLength[2]  # note that f in fentometers!!
   
   V1 <-4/3*pi*Rcore^3
   V2 <-4/3*pi*Rpart^3 
@@ -49,18 +50,14 @@ IqSAS <- function(Q, Rcore=NA, Rpart, latticep, latticepShell=NA, scatterLength,
   f_av <- (Nc*f1 + Ns*f2)/N
   
 #  V1 <- 0
-  if(!is.na(symShell)){
-    I <- ( 3*V1*(sld_c-sld_s)*j1(x1)/(x1) + 3*V2*(sld_s-sld_m)*j1(x2)/(x2) )^2 /N/f_av^2 - 1
+  if(CS){
+    I <- ( 3*V1*(sld_c-sld_s)*j1(x1)/(x1) + 3*(V2-V1)*(sld_s-sld_m)*j1(x2)/(x2) )^2 /N/f_av^2 - (Nc*f1^2 + Ns*f2^2)/(N*f_av^2)
     I2 <- I*(1 + sin(Q*2*Rpart)/(Q*2*Rpart))
-    I <- I*(1-pDimer) + I2*pDimer
-
-    I  * ( 1 - (Nc*f1^2 + Ns*f2^2)/(N^2*f_av^2) )
+    I*(1-pDimer) + I2*pDimer    
   }else{
     I <- ( 3*V1*(sld_c-sld_m)*j1(x1)/(x1) )^2 /Nc/f1^2 - 1
 	I2 <- I*(1 + sin(Q*2*Rpart)/(Q*2*Rpart))
-    I <- I*(1-pDimer) + I2*pDimer
-	
-    I   
+    I*(1-pDimer) + I2*pDimer
   }
   
 }
@@ -280,6 +277,8 @@ gaussConvol <- function(SQ, Q, Qdamp=0.0457, err=1e-6){
        PACKAGE="nanop")$SQ
 	 
 }
+
+
 
 ######################################################################################
 j1<-function(x){

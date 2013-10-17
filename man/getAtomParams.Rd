@@ -3,6 +3,7 @@
 \alias{getBase}
 \alias{getScatterLength}
 \alias{getScatterFactor}
+\alias{scatterFactor}
 
 \title{Fractional coordinates and scattering parameters for a given chemical element}
 \description{Get fractional coordinates, neutron scattering length and X-ray scattering factor.} 
@@ -10,9 +11,12 @@
 getBase(name)
 getScatterLength(name)
 getScatterFactor(name)
+scatterFactor(scatterFactor, Q)
 }
 \arguments{
   \item{name}{name of chemical element; see details.}. 
+  \item{scatterFactor}{list containing scattering factor parameters as returned by \code{getScatterFactor}.}. 
+  \item{Q}{numeric vector containing grid points at which scattering factor should be calculated.}. 
 }
 
 \value{
@@ -21,6 +25,8 @@ getScatterFactor(name)
   \code{getScatterLength}: numeric describing neutron scattering length for the given element.
   
   \code{getScatterFactor}: list containing X-ray scattering factor parameters for the given element.
+  
+  \code{scatterFactor}: numeric vector containing scattering factor value(s).
 }
 \seealso{
   \code{\link{createAtom}}
@@ -29,7 +35,7 @@ getScatterFactor(name)
   \code{getScatterLength} contains data for neutron scattering lengths of the elements and their isotopes taken from \url{http://www.ncnr.nist.gov/resources/n-lengths/list.html}.   Parameter \code{name} should be given as in the corresponding table. 
 
   \code{getScatterFactor} contains data for X-ray scattering factors of the elements and their isotopes taken from Waasmaier et al., 1995.  Parameter \code{name} should be given as in table 1.  The atomic scattering factor is calculated using the method developed by  Waasmaier et al. that implies approximation by a function
-    \deqn{f(s)=a_1 * exp(-b_1 s) + a_2 * exp(-b_2 s) + a_3 * exp(-b_3 s) + a_4 * exp(-b_4 s) + c}, with \eqn{s = \frac{Q}{4\pi}}.
+    \deqn{f(s)=a_1 * exp(-b_1 s) + a_2 * exp(-b_2 s) + a_3 * exp(-b_3 s) + a_4 * exp(-b_4 s) + c}, with \eqn{s = (\frac{Q}{4\pi})^2}.
 
   \code{getBase()} function contains information about fractional coordinates for certain simple structure.  Parameter \code{name} can be:
   
@@ -67,6 +73,10 @@ Cd_scF <- getScatterFactor("Cd")
 Se_base <- getBase("S")
 Se_scL <- getScatterLength("Se")
 Se_scF <- getScatterFactor("Se")
+
+Q <- seq(0.1, 15, 0.1)
+## plot scattering factor
+plot(Q, scatterFactor(Se_scF, Q))
 }
 \keyword{simulation}
 

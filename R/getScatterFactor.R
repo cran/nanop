@@ -225,3 +225,14 @@ list(a1=scF$a1, a2=scF$a2, a3=scF$a3, a4=scF$a4, a5=scF$a5,
      b1=scF$b1, b2=scF$b2, b3=scF$b3, b4=scF$b4, b5=scF$b5, 
 	 c=scF$c)
 } 
+
+
+
+
+######################################################################################
+scatterFactor <- function(scatterFactor, Q){
+  s <- (Q/(4*pi))^2
+  scatterFactor$a1*exp(-scatterFactor$b1*s) + scatterFactor$a2*exp(-scatterFactor$b2*s) +
+   scatterFactor$a3*exp(-scatterFactor$b3*s) + scatterFactor$a4*exp(-scatterFactor$b4*s) +
+   scatterFactor$a5*exp(-scatterFactor$b5*s) + scatterFactor$c
+}

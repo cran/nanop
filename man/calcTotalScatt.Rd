@@ -44,7 +44,7 @@ IqSASP(Q, shell=NA, Rpart, latticep, latticepShell=NA,
 }
 \details{The X-ray scattering factor is approximated by the function
 \deqn{f(s)=a_1 * exp(-b_1 s) + a_2 * exp(-b_2 s) + a_3 * exp(-b_3 s) + a_4 * exp(-b_4 s) + c}
-where \eqn{s = \frac{Q}{4\pi}}. The constants in the function are possible to specify as arguments.  In that case \code{scatterFactor} parameter should contain vectors \code{a1}, \code{b1}, \code{a2}, \code{b2}, \code{a3}, \code{b3}, \code{a4}, \code{b4}, \code{a5}, \code{b5} and \code{c}. Their default values correspond to the values for Au and Pd atoms.  
+where \eqn{s = (\frac{Q}{4\pi})^2}. The constants in the function are possible to specify as arguments.  In that case \code{scatterFactor} parameter should contain vectors \code{a1}, \code{b1}, \code{a2}, \code{b2}, \code{a3}, \code{b3}, \code{a4}, \code{b4}, \code{a5}, \code{b5} and \code{c}. Their default values correspond to the values for Au and Pd atoms.  
 
 The correlated atomic displacement parameter for the atoms \eqn{\mu} and \eqn{\nu} is calculated as 
 \deqn{ \sigma^2_{\mu, \nu} = (\sigma^2_{\mu}  + \sigma^2_{\nu} ) [ 1 - \frac{\delta}{r^n}].}

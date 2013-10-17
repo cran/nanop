@@ -1,0 +1,5 @@
+Changes in version 2.0-2
+  o Fixed bug in rss calculations in log scale
+  o Fixed bug in parametric SqSAS calculations
+  o Function scatterFactor added to calculate scattering factor as a function
+  o Dimers can now be simulated  for a non-spherical particles

@@ -280,7 +280,7 @@ rss <- function(par, dataG=NA, dataS=NA, dataSAS=NA,
     if(SASscale=="normal")
 	  rssSAS <- sqrt(sum((gQ_SAS-dataSAS)^2)/(sum(dataSAS^2))) * wSAS	
 	if(SASscale=="log")
-	  rssSAS <- sqrt(((log(abs(gQ_SAS))-log(abs(dataSAS)))^2)/sum( (log(abs(dataSAS)))^2 )) * wSAS	
+	  rssSAS <- sqrt(sum((log(abs(gQ_SAS))-log(abs(dataSAS)))^2)/sum( (log(abs(dataSAS)))^2 )) * wSAS	
 	if(SASscale=="weighted")
       rssSAS <- sqrt(sum((gQ_SAS/dataSAS-1)^2)/(length(dataSAS))) * wSAS		
   }

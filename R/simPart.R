@@ -620,9 +620,9 @@
 		cat("nStacks", attr(ans, "nStacks"), "\n")
 	 
 	  
-	################################################################################
-	#####                      DIMER CONSTRUCTION                               ####  
-	################################################################################
+################################################################################
+#####                      DIMER CONSTRUCTION                               ####  
+################################################################################
 	  p <- pDimer
 	  #p = probability that particle has a neighbour
 	  x <- runif(1,0,1)
@@ -663,35 +663,30 @@
 		
 		if(is.na(rcore[1])){
 		  x1 <- 1
-		  x2 <- attributes(ans)$typesPos[2]
+		  x2 <- nrow(ans)+1
 		  ans <- rbind(ans[1:(x2-1),], part2[1:(x2-1),])
 		}
 		else{
-		  x1 <- attributes(ans)$typesPos[2]
-		  x2 <- attributes(ans)$typesPos[3]
+		  x1 <- attributes(ans)$rowcore+1
+		  x2 <- nrow(ans)+1
 		  # change for the case of no atoms in the core 
-		  part_tmp <- rbind(ans[1:(x1-1),], part2[1:(x1-1),])
-		  if(x2>x1){
-			part_tmp <- rbind(part_tmp, ans[x1:(x2-1),])
+		  part_tmp <- rbind(ans[1:(x2-1),], part2[1:(x1-1),])
+		  if(x2>x1)
 			ans <- rbind(part_tmp, part2[x1:(x2-1),])
-		  }
 		  else 
 			ans <- part_tmp
 		}
-		
-		
 		attributes(ans) <- attributes(part2)[-1]
-		attributes(ans)$typesPos <- 2*attributes(part2)$typesPos-1
-		attributes(ans)$layer_end <- 2*attributes(part2)$layer_end 
-		attributes(ans)$layer_start <- 1 
-		attributes(ans)$dim <- c(attributes(part2)$dim[1]*2,3)
+		attributes(ans)$dim <- c(attributes(part2)[[1]][1]*2, 3)
+		attributes(ans)$atomType <- c(attributes(ans)$atomType, attributes(ans)$atomType) #
+		attributes(ans)$layer_end <- 2*attributes(part2)$layer_end #
+		attributes(ans)$layer_start <- 1 #
 		attributes(ans)$dimer <- TRUE
-		
 		if(!is.na(rcore[1])){
 		  attributes(ans)$rowcore <- 2*attributes(part2)$rowcore
 		  attributes(ans)$rowshell <- 2*attributes(part2)$rowshell
-		  attributes(ans)$layerS_end <- 2*attributes(part2)$layerS_end 
-		  attributes(ans)$layerS_start <- 1 
+		  attributes(ans)$layerS_end <- 2*attributes(part2)$layerS_end  #
+		  attributes(ans)$layerS_start <- 1  #
 		}
 	################################################################################
 	  #  if(x < p^2){
