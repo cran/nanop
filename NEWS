@@ -1,3 +1,8 @@
+Changes in version 2.0-3
+  o Fixed bug in simulating stacking faults for fcc structures
+  o Fixed bug in calculating total scattering function for particles with box shapes
+  o Got rid of package 'geometry' dependence 
+
 Changes in version 2.0-2
   o Fixed bug in rss calculations in log scale
   o Fixed bug in parametric SqSAS calculations

@@ -8,10 +8,9 @@
 \usage{
 calcPDF(nanop, dr=.01, minR=.01, maxR=20, 
         scatterLength=NA, scatterFactor=NA,  
-        type="neutron", Qmin=1e-16)
-	 
-calcQDepPDF(nanop, dr=.1, minR=1, maxR=20, dQ=.01, minQ=1, maxQ=20,
-            verbose=0, subdivisions = 100,
+        type="neutron", Qmin=1e-16)                        
+calcQDepPDF(nanop=NA, dr=.1, minR=1, maxR=20, dQ=.01, minQ=1, maxQ=20,
+            verbose=0, subdivisions = 100, order=1000,
             rel.tol=.Machine$double.eps^.7,
             addNoise=FALSE, noiseFun=NA, 
             totalScattParams=list(), preTotalScat=NA, ...)
@@ -31,6 +30,7 @@ calcQDepPDF(nanop, dr=.1, minR=1, maxR=20, dQ=.01, minQ=1, maxQ=20,
   \item{maxQ}{numeric indicating the maximum value of Q for which the total scattering function should be evaluated.}
   \item{verbose}{numeric; if greater than zero a status report is given after computing the function every \code{verbose} steps in r.}
   \item{subdivisions}{numeric, the maximum number of subintervals for the Fourier integral calculation.}
+  \item{order}{numeric, order of Gauss-Legendre quadrature.}
   \item{rel.tol}{numeric, relative accuracy requested for the Fourier integral calculation.}
   \item{addNoise}{logical indicating whether noise should be added to the total scattering structure function.  If \code{addNoise=TRUE} then function \code{noiseFun} is applied to the approximation of the total scattering structure function at points \code{Q} determined by the numerical integration routine.}
   \item{noiseFun}{function used to add noise to the total scattering structure function, applied only if \code{addNoise=TRUE}. The first argument should be a numeric vector representing the total scattering structure function. Additional arguments may be passed via \code{...}.}

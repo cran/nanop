@@ -161,9 +161,11 @@ calcTotalScatt <- function(nanop, dQ=.01, minQ=0.771, maxQ=35, type="neutron",
   if(nAtomTypes==1){
     x2 <- nrow(nanop)+1
 	x1 <- 1
-    if(attributes(nanop)$shape=="box" || attributes(nanop)$shape=="ellipse")
+    if(attributes(nanop)$shape=="ellipse")
 	  diam <- 2*max(attributes(nanop)$r)
-	else
+	else if(attributes(nanop)$shape=="box")
+      diam <- 2*sqrt(sum(attributes(nanop)$r^2))
+    else
 	  diam <- 2*attributes(nanop)$r
  	if( (x2-x1) <= 1) 
 	  res <- list(Q=Q, gQ = rep(0,length(Q)))
@@ -268,10 +270,14 @@ calcTotalScatt <- function(nanop, dQ=.01, minQ=0.771, maxQ=35, type="neutron",
 	  if( nAt[i] <= 1) 
 	    res_gQ_CCSS <- res_gQ_CCSS + rep(0,length(Q))
 	  else{
-	    if(attributes(nanop)$shape=="box" || attributes(nanop)$shape=="ellipse"){
+	    if(attributes(nanop)$shape=="ellipse"){
           diam <- 2*max(attributes(nanop)$r)
 	      if(tt[i]>0 && min(tt) < 0 )
 	        diam <- 2*max(attributes(nanop)$rcore)
+        }else if(attributes(nanop)$shape=="box"){
+          diam <- 2*sqrt(sum(attributes(nanop)$r^2))
+	      if(tt[i]>0 && min(tt) < 0 )
+	        diam <- 2*sqrt(sum(attributes(nanop)$rcore^2))         
         }else{
           diam <- 2*attributes(nanop)$r
 	      if(tt[i]>0 && min(tt) < 0 )
@@ -387,7 +393,7 @@ calcTotalScatt <- function(nanop, dQ=.01, minQ=0.771, maxQ=35, type="neutron",
 	    if( nAt[i] <= 1 || nAt[j] <= 1 ) 
 	      res_gQ_CS <- res_gQ_CS + rep(0,length(Q))
 	    else{		
-		  if(attributes(nanop)$shape=="box" || attributes(nanop)$shape=="ellipse"){
+		  if(attributes(nanop)$shape=="ellipse"){
   		    diam <- 2*max(attributes(nanop)$r)
 	        if(min(tt) < 0){
 	          if(tt[i]*tt[j]<0)
@@ -395,6 +401,14 @@ calcTotalScatt <- function(nanop, dQ=.01, minQ=0.771, maxQ=35, type="neutron",
 	          if(tt[i]>0 && tt[j]>0)
 			    diam <- 2*max(attributes(nanop)$rcore)
 		    }
+          }else if(attributes(nanop)$shape=="box"){
+  		    diam <- 2*sqrt(sum(attributes(nanop)$r^2))
+	        if(min(tt) < 0){
+	          if(tt[i]*tt[j]<0)
+			    diam <- sqrt(sum(attributes(nanop)$rcore^2)) + sqrt(sum(attributes(nanop)$r^2))
+	          if(tt[i]>0 && tt[j]>0)
+			    diam <- 2*sqrt(sum(attributes(nanop)$rcore^2))
+		    }          
           }else{
   		    diam <- 2*attributes(nanop)$r
 	        if(min(tt) < 0){

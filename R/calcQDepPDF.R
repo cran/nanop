@@ -1,5 +1,5 @@
 calcQDepPDF <- function(nanop=NA, dr=.1, minR=1, maxR=20, dQ=.01, minQ=1, maxQ=20,
-                        verbose=0, subdivisions = 100,
+                        verbose=0, subdivisions = 100, order=1000,
                         rel.tol=.Machine$double.eps^.7,
                         addNoise=FALSE,
                         noiseFun=NA, 
@@ -33,8 +33,8 @@ calcQDepPDF <- function(nanop=NA, dr=.1, minR=1, maxR=20, dQ=.01, minQ=1, maxQ=2
   for(i in 1:length(r)) {   
     res[i] <- distrEx::GLIntegrate(f=calcQDepPDFAux, 
 	                      lower=minQ, upper=maxQ,
-						  order=1000, rel.tol=rel.tol,
-						  r=r[i], 
+						  order=order, rel.tol=rel.tol,
+						  r=r[i],  
 						  tnanop=as.vector(tnanop),
 						  minR=minR,
 						  subdivisions=subdivisions, 

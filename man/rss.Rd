@@ -132,7 +132,7 @@ boundsU <- c(latticep=4.5,  r=14.0,  sigma=c(.03), rsigma=1.3)
 #    oneDW=FALSE, type="neutron",                   
 #    control=DEoptim.control(CR=0.85, F=0.7, NP=40, itermax=30, 
 #        parallelType=1, packages = list("PerformanceAnalytics"),
-#        parVar=list("rss", "simPart", "Unique", "calcPDF", 
+#        parVar=list("rss", "simPart", "calcPDF", 
 #        "IqSASP", "GrSAS", "GrSASCS", "broadPDF", "termRip",
 #        "getSymEl", "IqSAS", "displacePart", "calcTotalScatt")),       
 #    dataS=NA, dataSAS=gQ_av_SAS, dataG=resWAS$gr, 

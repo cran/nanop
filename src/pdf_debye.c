@@ -555,10 +555,9 @@ void simPartStackCub(double *res, int *stacks, double *a, int *Nx, int *Ny, int 
   int cnt = 0;
 
   b = *a/sqrt(2);
-  by = b/sqrt(3);
-  bz = *a/sqrt(3);
+  by = *a*sqrt(3)/(2*sqrt(2));
+  bz = *a*sqrt(3)/3;
   *nStacks = 0;
-
   for (i=-*Nz; i < *Nz+1; i++) {  //z
 	if (i == stacks[*nStacks]){
 	  *nStacks += 1;
@@ -567,8 +566,8 @@ void simPartStackCub(double *res, int *stacks, double *a, int *Nx, int *Ny, int 
 	}
     for (j=-*Ny; j < *Ny+1; j++) {  //t
       for (k=-*Nx; k < *Nx+1; k++) {  //x
-	    res[cnt] = ((double)k+0.5*(double)j) *b + plane*b;  //x
-		res[cnt+1] =(double)j*by*1.5 + plane*by;  //t
+	    res[cnt] = ((double)k + 0.5*(double)j + 0.5*(double)plane) * b;  //x
+		res[cnt+1] =((double)j + (double)plane/3) * by;  //t
 		res[cnt+2] =  (double)i* bz ;  //z
 	    cnt +=3;
        }
@@ -1750,9 +1749,7 @@ void fastCalcTotalScatt_CS(double *res, double *Q, int *len, double *scale,
   int M_d, p, pp, S;
   double rmin = 0;
   int pseudoN;
-  
- 
-		
+  		
   if(fabs(*dr)>1e-8)
     pseudoN = floor((*rmax-rmin)/ *dr);
   else
@@ -1771,7 +1768,6 @@ void fastCalcTotalScatt_CS(double *res, double *Q, int *len, double *scale,
   double * ff1 =  (double *)R_alloc( *len, sizeof( double ));
   double * ff2 =  (double *)R_alloc( *len, sizeof( double ));
 
-
   double ** nanop_mu = (double **)R_alloc( *nrow_mu, sizeof( double * ));
   for( int i = 0; i < *nrow_mu; i++ )
     nanop_mu[i] = (double *)R_alloc(3, sizeof( double ));
@@ -1779,7 +1775,6 @@ void fastCalcTotalScatt_CS(double *res, double *Q, int *len, double *scale,
   for( int i = 0; i < *nrow_nu; i++ )
     nanop_nu[i] = (double *)R_alloc(3, sizeof( double ));
 
-	
 	
   if(*type) { // x-ray scattering 
     for(i=0; i<*len; i++){ 
@@ -1818,7 +1813,6 @@ void fastCalcTotalScatt_CS(double *res, double *Q, int *len, double *scale,
   
 /*   using honest  ->  */  
   if(fabs(*dr) < 1e-8){	
-  
     double * dist =  (double *)R_alloc( pseudoN, sizeof( double ));
 
     for (j=0; j < *nrow_nu; j++) {
@@ -1859,7 +1853,6 @@ void fastCalcTotalScatt_CS(double *res, double *Q, int *len, double *scale,
 	  mu_l[j]=0;
 	  d_l[j]=rmin + (j+0.5)* *dr;
     }
-	
     for (j=0; j < *nrow_nu; j++) {
 	  for (k=0; k < *nrow_mu; k++) {
 	    dist2 = sqrt(pow(nanop_nu[j][0]-nanop_mu[k][0],2)+
@@ -1890,8 +1883,6 @@ void fastCalcTotalScatt_CS(double *res, double *Q, int *len, double *scale,
 
   omega = 1.5* *del;
   S = floor((d_l[M_d-1]+omega*8.4904)/ *del);
-
-  
   double * divi =  (double *)R_alloc( M_d, sizeof( double ));
   for (j=0; j < M_d; j++){
 	divi[j] = mu_l[j]/d_l[j];
@@ -1925,10 +1916,7 @@ void fastCalcTotalScatt_CS(double *res, double *Q, int *len, double *scale,
     }
   }
   
-  
-
   sigma = (*sigma_mu + *sigma_nu);
-
   calcSum(res, weights, Q, S, *len, *del);
 
   for (i=0; i<*len; i++) {
