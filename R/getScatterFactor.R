@@ -1,6 +1,9 @@
 getScatterFactor <- function(name){
 
 #fpe <- read.table("scF.dat")
+fpath <- system.file("extdata", "fpe.csv", package="nanop")
+fpe <- read.csv(file = fpath, header = TRUE)
+
 
 num <- switch(name,
 	"H"=1,

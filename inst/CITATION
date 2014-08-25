@@ -1,0 +1,28 @@
+citHeader("To cite the nanop package in publications use:")
+
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
+vers <- paste("R package version", meta$Version)
+
+citEntry(entry = "Manual",
+         title = "nanop: Tools for Nanoparticle Simulation and Calculation of PDF and Total Scattering Structure Function",
+         author = c(person("Anton", "Gagin"), person("Katharine", "Mullen"), person("Igor", "Levin")),
+         year = year,
+         note = vers,
+         url = "http://CRAN.R-project.org/package=nanop", 
+         textVersion = paste("Gagin, A., Mullen, K.M. & Levin, I. (2014),", 
+            "nanop: Tools for Nanoparticle Simulation and Calculation of PDF and Total Scattering Structure Function (R package),", 
+            "http://cran.r-project.org/web/packages/nanop"))
+         
+citEntry(entry = "Article", 
+    author = c(person("Anton", "Gagin"), person("Igor", "Levin")),
+    title = "Combined fitting of small- and wide-angle X-ray total scattering data from nanoparticles: benefits and issues", 
+    journal = "Journal of Applied Crystallography", 
+    year = 2014, 
+    volume = 47, 
+    pages = "619--629", 
+    url = "http://journals.iucr.org/j/issues/2014/02/00/to5066/", 
+    textVersion = paste("Gagin, A. and Levin, I. (2014)", 
+        "Combined fitting of small- and wide-angle X-ray total scattering data from nanoparticles: benefits and issues", 
+        "J. Appl. Cryst. 47:619--629"))
+
+citFooter("As nanop is continually evolving, you may want to cite its version number. Find it with 'help(package=nanop)'.")

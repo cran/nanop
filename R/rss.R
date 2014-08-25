@@ -26,8 +26,7 @@ rss <- function(par, dataG=NA, dataS=NA, dataSAS=NA,
                 parscale=NA, skel=NA, con=TRUE, oneDW=FALSE, 
                 punish=FALSE, 
                 gammaR=NA, rvector=NA, fixed=NA,
-                wG=0.03, wSAS=0.03, avRes=1, pareto=FALSE)  {
-
+                wG=0.03, wSAS=0.03, avRes=1, pareto=FALSE){
   if(!is.na(parscale[1])) 
     par2 <- relist( par / parscale, skel)
   else 
@@ -140,6 +139,13 @@ rss <- function(par, dataG=NA, dataS=NA, dataSAS=NA,
   paramSASQ <- TotalScatt.fixed$paramSASQ
     
   gQ_SAS_av <- gQ_av <- mod_av <- gQ_SAS <- gQ <-  mod <- 0  
+  simulate_particle <- TRUE
+  
+  ####################
+  #
+  # !MAIN CYCLE OVER AVRES!
+  #
+  ####################
   for(j in 1:avRes){
     p <- 0
     if(kind !="fast_av" && !is.na(rsigma)){
@@ -151,7 +157,10 @@ rss <- function(par, dataG=NA, dataS=NA, dataSAS=NA,
       rcore_tmp <- rcore
 	} 	 				
 	
-    if (is.na(part[1]))
+    if(!is.na(part[1]) && j==1)   # if on the first step we already have particle
+      simulate_particle <- FALSE  # we don't have to simulate new ones...
+      
+    if(simulate_particle)
       part <- simPart(atoms=simPar$atoms, sym=simPar$sym, latticep=latticep, r=r_tmp,
 	                  atomsShell=simPar$atomsShell, symShell=simPar$symShell, 
 					  latticepShell=latticepShell, rcore=rcore_tmp, 
@@ -212,7 +221,6 @@ rss <- function(par, dataG=NA, dataS=NA, dataSAS=NA,
     gQ_SAS_av <- gQ_SAS_av + gQ_SAS
     gQ_av <- gQ_av + gQ
     mod_av <- mod_av + mod
-	part <- NA
   }	
   gQ_SAS <- gQ_SAS_av/avRes
   gQ <- gQ_av/avRes

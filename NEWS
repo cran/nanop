@@ -1,3 +1,7 @@
+Changes in version 2.0-4
+  o Added citation info 
+  o Fixed small bugs with particle simulations  
+
 Changes in version 2.0-3
   o Fixed bug in simulating stacking faults for fcc structures
   o Fixed bug in calculating total scattering function for particles with box shapes

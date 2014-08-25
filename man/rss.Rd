@@ -76,18 +76,18 @@ return values suitable for \code{simPar}, \code{PDF.fixed} and \code{TotalScatt.
 part <- res_gQ <- res_gQ_WAS <- res_gQ_SAS <- list() 
 
 ## prepare polydisperse sample consisting of 30 particles:
-size <- sort(rlnorm(30, meanlog = log(10), sdlog = log(1.1)))
+size <- sort(rlnorm(20, meanlog = log(10), sdlog = log(1.1)))
 base_Cu <- getBase("Cu")
 Au <- createAtom("Au", base=base_Cu)
 
-for(i in 1:30) {
+for(i in 1:20) {
   cat("r = ", size[i], "\n")
   part[[i]] <- simPart(atoms=list(Au), r=size[i], latticep=4.08, 
       rcenter=TRUE) 
   res_gQ_WAS[[i]] <- calcTotalScatt(part[[i]],minQ=.771, maxQ=20, 
-      dr=0.01, dQ=0.02, sigma=c(0.02))							
+      dr=0.02, dQ=0.02, sigma=c(0.02))							
   res_gQ_SAS[[i]] <- calcTotalScatt(part[[i]],minQ=.001, 
-      dr=0.01, maxQ=.771, dQ=0.01, sigma=c(0.02))
+      dr=0.02, maxQ=.771, dQ=0.01, sigma=c(0.02))
   cat(i,"\n")
 }
 
@@ -105,7 +105,7 @@ for(i in 1:length(res_gQ_SAS)) {
 gQ_av_SAS <- gQ_av_SAS/length(res_gQ_SAS)
 
 ## calculate PDF and gamma baseline term
-resSAS  <- calcQDepPDF(minR=0, maxR=30, dr=0.01, minQ=.001,
+resSAS  <- calcQDepPDF(minR=0, maxR=30, dr=0.02, minQ=.001,
     maxQ=.771, verbose=100, 
     preTotalScat=list(Q=res_gQ_SAS[[1]]$Q,gQ=gQ_av_SAS))
   
@@ -113,7 +113,7 @@ mr <- which(res_gQ_WAS[[1]]$Q > 17)[1]
 mxr <- which(res_gQ_WAS[[1]]$Q > 19)[1]
 cuto <- res_gQ_WAS[[1]]$Q[mr:mxr][which(abs(gQ_av_WAS[mr:mxr])
     ==min(abs(gQ_av_WAS[mr:mxr]) ))[1] ]
-resWAS <- calcQDepPDF(minR=0, maxR=30, dr=0.01, minQ=.771, 
+resWAS <- calcQDepPDF(minR=0, maxR=30, dr=0.02, minQ=.771, 
     maxQ=cuto, verbose=100, 
     preTotalScat=list(Q=res_gQ_WAS[[1]]$Q,gQ=gQ_av_WAS))
 
