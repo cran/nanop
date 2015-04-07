@@ -20,7 +20,7 @@ citEntry(entry = "Article",
     year = 2014, 
     volume = 47, 
     pages = "619--629", 
-    url = "http://journals.iucr.org/j/issues/2014/02/00/to5066/", 
+    url = "http://scripts.iucr.org/cgi-bin/paper?S1600576714001046", 
     textVersion = paste("Gagin, A. and Levin, I. (2014)", 
         "Combined fitting of small- and wide-angle X-ray total scattering data from nanoparticles: benefits and issues", 
         "J. Appl. Cryst. 47:619--629"))

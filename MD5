@@ -1,6 +1,6 @@
-372ed4deb02f3022736760108cbd4234 *DESCRIPTION
+712f8f286630e73a51f7a9edaada5a65 *DESCRIPTION
 723935e885caf725434b6dacf9c75b4d *NAMESPACE
-c878bdd9b8caba8f57c2b854cea59c7b *NEWS
+f495578ca0bd1022d697c88a69e30c5d *NEWS
 9bf924a8934c2ed2eac8b7c524ad1ec3 *R/broadPDF.R
 6518e689e933933498da99724388740b *R/calcIc.R
 30ca6aa24c1094b1908e7ca1bccf26b9 *R/calcInDirect.R
@@ -10,7 +10,7 @@ ea344fa94ceb098e596415a4fa608767 *R/calcQDepPDF.R
 eb0e4442315c518432ea5fcc862d9972 *R/calcRedTotalScatt.R
 33a67f6af6d85a0530c7e83b6666b9c1 *R/calcTotalScatt.R
 4245ab3f931d056d159e9fb80889107d *R/createAtom.R
-185f6e4d1fd34ff9f4a1a09d5ba2932d *R/displacePart.R
+d5687fb96a227bbc3ee04bd2d2a6055b *R/displacePart.R
 401be7d00676ff2fddd7a8aa4255b0cd *R/getScatterFactor.R
 c278756bfe1c102b1c4c654b7809bfc7 *R/getScatterLength.R
 19d818434c905441b0b253cd02af101e *R/parSetUp.R
@@ -20,7 +20,8 @@ f54d7d26f45562a4331c8061e711bbcc *R/simPart.R
 8cebdb45e5b4a2f0b0fc8bd1fc6afcfc *R/supl.R
 2446df63090fb4605d15c109f6bfc5fd *R/termRip.R
 32eac287a01ad0da4afe51ac9f5caf5e *R/toCart.R
-2327f9e8a84887628ae7c92a346deb39 *inst/CITATION
+5a54bb90d5fc748b363289d9717ebe65 *data/fpe.rda
+bc48a937ebae9dfa5bb043941fd8a0d7 *inst/CITATION
 8b03b79efd224a72394a41cfd4818be8 *inst/extdata/fpe.csv
 136692b46231f41ef8b670d7b50e8717 *man/GrSAS.Rd
 d8ac838bde0546159033fa104cbe42fe *man/broadPDF.Rd

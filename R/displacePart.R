@@ -45,25 +45,30 @@ displacePart <- function(nanop, sigma=NA,
     ## uniform
     np <- rnorm(nrow(nanop)*3, mean = 0, sd = sqrt(sigma[1]))
     nanop <- nanop + np
+    atomType_new <- atomType
   }
   else if( good==1 && nAtomTypes >1 ) {
-	nanop_new <- matrix(nrow=0, ncol=3)
+    nanop_new <- matrix(nrow=0, ncol=3)
+    atomType_new <- 0
     for(i in 1:nAtomTypes){
-	  if( nAt[i] >= 1 ){
+	    if( nAt[i] >= 1 ){
         nanop_tmp <- nanop[iAtomType[[i]], ]  	  
-	    if(nAt[i]==1) ## one atom of given type
+	      if(nAt[i]==1) ## one atom of given type
           nanop_tmp <- as.matrix(t(nanop_tmp))
 		   
-		np <- rnorm(nrow(nanop_tmp)*3, mean = 0, sd=sqrt(sigma[i])) 
+	      np <- rnorm(nrow(nanop_tmp)*3, mean = 0, sd=sqrt(sigma[i])) 
         nanop_tmp <- nanop_tmp + np
-		nanop_new <- rbind(nanop_new, nanop_tmp)
+		    nanop_new <- rbind(nanop_new, nanop_tmp)
+        atomType_new <- c(atomType_new, rep(tt[i], nAt[i]))
+	    }
 	  }
-	}
     nanop <- nanop_new
-
+    atomType_new <- atomType_new[-1]
   }
   else 
     stop("Non-sensible input argument")
+    
   attributes(nanop) <- attributes(onanop)
+  attributes(nanop)$atomType <- atomType_new
   nanop
 }
