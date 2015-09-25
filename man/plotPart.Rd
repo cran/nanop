@@ -2,7 +2,7 @@
 \Rdversion{1.1}
 \alias{plotPart}
 \title{Draws a three-dimensional scatterplot}
-\description{Function to visualize a nanoparticle using \href{http://cran.r-project.org/web/packages/rgl/index.html}{rgl} package.}
+\description{Function to visualize a nanoparticle using \href{http://CRAN.R-project.org/package=rgl}{rgl} package.}
 \usage{
 plotPart(nanop, radius=0.4, legend=TRUE, col=NA, box=FALSE, 
     play=FALSE, atoms=NA, miller=NA, lattice=c(4.08))

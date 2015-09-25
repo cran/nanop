@@ -1,5 +1,5 @@
-712f8f286630e73a51f7a9edaada5a65 *DESCRIPTION
-723935e885caf725434b6dacf9c75b4d *NAMESPACE
+2200c26f84a76247882f4451b9b77330 *DESCRIPTION
+2ef43608d45fd110737a231e4e7eb302 *NAMESPACE
 f495578ca0bd1022d697c88a69e30c5d *NEWS
 9bf924a8934c2ed2eac8b7c524ad1ec3 *R/broadPDF.R
 6518e689e933933498da99724388740b *R/calcIc.R
@@ -21,7 +21,7 @@ f54d7d26f45562a4331c8061e711bbcc *R/simPart.R
 2446df63090fb4605d15c109f6bfc5fd *R/termRip.R
 32eac287a01ad0da4afe51ac9f5caf5e *R/toCart.R
 5a54bb90d5fc748b363289d9717ebe65 *data/fpe.rda
-bc48a937ebae9dfa5bb043941fd8a0d7 *inst/CITATION
+4649b56486ef0876841cd94050767020 *inst/CITATION
 8b03b79efd224a72394a41cfd4818be8 *inst/extdata/fpe.csv
 136692b46231f41ef8b670d7b50e8717 *man/GrSAS.Rd
 d8ac838bde0546159033fa104cbe42fe *man/broadPDF.Rd
@@ -31,7 +31,7 @@ b0fb3d3fde2ef3a538b5a6e7280b542c *man/calcTotalScatt.Rd
 4a37892f36c9c4d9229dbdbb92c58c08 *man/gaussConvol.Rd
 4c9f88b61eb4acd708d4cfa57761b0a9 *man/getAtomParams.Rd
 890a999e0764773211a826342673737d *man/internals.Rd
-da5723ab4a0dfe87e46150f77aebdcca *man/plotPart.Rd
+387da44c95c121a287c2a8ef9525ae62 *man/plotPart.Rd
 09980923eefbbce3512c7f2046cedd63 *man/rss.Rd
 8b6d713a3a90f9b88ee05763da6295be *man/simPart.Rd
 c1506da5211a80f97b2c38d719311cf3 *man/termRip.Rd

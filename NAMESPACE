@@ -8,3 +8,6 @@ export(calcPDF, calcTotalScatt, calcQDepPDF,
 	   GrSAS, GrSASCS, plotPart, getSymEl,
 	   getScatterFactor, getScatterLength,
 	   createAtom, getBase, scatterFactor)
+importFrom("stats", "approx", "dlnorm", "qlnorm", "rlnorm", "rnorm",
+             "runif")
+importFrom("utils", "read.csv", "relist")

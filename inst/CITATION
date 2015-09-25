@@ -11,7 +11,7 @@ citEntry(entry = "Manual",
          url = "http://CRAN.R-project.org/package=nanop", 
          textVersion = paste("Gagin, A., Mullen, K.M. & Levin, I. (2014),", 
             "nanop: Tools for Nanoparticle Simulation and Calculation of PDF and Total Scattering Structure Function (R package),", 
-            "http://cran.r-project.org/web/packages/nanop"))
+            "http://CRAN.R-project.org/package=nanop"))
          
 citEntry(entry = "Article", 
     author = c(person("Anton", "Gagin"), person("Igor", "Levin")),
